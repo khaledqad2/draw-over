@@ -1,0 +1,26 @@
+# Source files
+src/
+
+# Config files
+vite.config.ts
+tsconfig.json
+tsconfig.node.json
+
+# Development files
+node_modules/
+*.log
+.DS_Store
+
+# Test files
+index.html
+public/
+
+# Git
+.git
+.gitignore
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo

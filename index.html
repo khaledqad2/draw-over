@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DrawOver Test</title>
+  </head>
+
+  <body>
+    <h1>DrawOver Test Page</h1>
+    <button id="activate">Activate Drawing</button>
+    <button id="deactivate">Deactivate</button>
+    <button id="clear">Clear All</button>
+
+    <script type="module">
+      import DrawOver from './src/index.ts';
+
+      const drawer = new DrawOver({
+        strokeColor: '#ff0000',
+        strokeWidth: 3
+      });
+
+      document.getElementById('activate').addEventListener('click', () => {
+        drawer.activate();
+        drawer.setTool('line');
+      });
+
+      document.getElementById('deactivate').addEventListener('click', () => {
+        drawer.deactivate();
+      });
+
+      document.getElementById('clear').addEventListener('click', () => {
+        drawer.clear();
+      });
+    </script>
+  </body>
+
+</html>
