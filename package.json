@@ -1,15 +1,56 @@
 {
   "name": "draw-over",
-  "private": true,
-  "version": "0.0.0",
+  "version": "1.0.0",
+  "description": "A lightweight JavaScript library to draw lines, arrows, and rectangles over any web application",
   "type": "module",
+  "main": "./dist/draw-over.umd.js",
+  "module": "./dist/draw-over.es.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/draw-over.es.js",
+      "require": "./dist/draw-over.umd.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
   "scripts": {
     "dev": "vite --open",
     "build": "tsc && vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "prepublishOnly": "npm run build"
   },
+  "keywords": [
+    "draw",
+    "overlay",
+    "annotation",
+    "canvas",
+    "svg",
+    "drawing",
+    "shapes",
+    "arrows",
+    "lines",
+    "rectangles",
+    "sketch"
+  ],
+  "author": "Khaled Obaid <khaledqad@gmail.com>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/khaledqad2/draw-over.git"
+  },
+  "bugs": {
+    "url": "https://github.com/khaledqad2/draw-over/issues"
+  },
+  "homepage": "https://github.com/khaledqad2/draw-over#readme",
   "devDependencies": {
-    "typescript": "~5.9.3",
-    "vite": "^7.1.7"
+    "@types/node": "^24.10.0",
+    "typescript": "^5.2.2",
+    "vite": "^5.0.0",
+    "vite-plugin-dts": "^4.5.4"
   }
 }
