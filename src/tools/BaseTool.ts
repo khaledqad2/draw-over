@@ -37,7 +37,7 @@ export abstract class BaseTool {
    * Generate a unique ID for shapes
    */
   protected generateId(): string {
-    return `shape-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
+    return `shape-${Date.now()}-${Math.random().toString(36).substring(2, 9)}`;
   }
 
   /**

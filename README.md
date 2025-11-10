@@ -135,7 +135,7 @@ new DrawOver(options?: DrawOverOptions)
 
 | Option        | Type     | Default         | Description                   |
 | ------------- | -------- | --------------- | ----------------------------- |
-| `strokeColor` | `string` | `'#ff0000'`     | Color of drawn shapes         |
+| `strokeColor` | `string` | `'#00ff00'`     | Color of drawn shapes         |
 | `strokeWidth` | `number` | `2`             | Width of the stroke in pixels |
 | `fillColor`   | `string` | `'transparent'` | Fill color for rectangles     |
 | `zIndex`      | `number` | `9999`          | Z-index of the overlay        |

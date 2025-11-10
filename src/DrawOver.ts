@@ -8,6 +8,7 @@ import "./styles.css";
 export class DrawOver {
   private options: Required<DrawOverOptions>;
   private isActive: boolean = false;
+  private oneTimeOverlay: boolean = false;
   private overlay: HTMLDivElement | null = null;
   private svg: SVGSVGElement | null = null;
   private currentTool: BaseTool | null = null;
@@ -17,7 +18,7 @@ export class DrawOver {
 
   constructor(options: DrawOverOptions = {}) {
     this.options = {
-      strokeColor: options.strokeColor || "#ff0000",
+      strokeColor: options.strokeColor || "#d2691e",
       strokeWidth: options.strokeWidth || 2,
       fillColor: options.fillColor || "transparent",
       zIndex: options.zIndex || 9999,
@@ -39,9 +40,12 @@ export class DrawOver {
   public activate(): void {
     if (this.isActive) return;
 
-    this.createOverlay();
+    if (!this.oneTimeOverlay) {
+      this.createOverlay();
+    }
     this.attachEventListeners();
     this.isActive = true;
+    this.oneTimeOverlay = true;
   }
 
   /**
@@ -51,11 +55,11 @@ export class DrawOver {
     if (!this.isActive) return;
 
     this.removeEventListeners();
-    if (this.overlay && this.overlay.parentNode) {
-      this.overlay.parentNode.removeChild(this.overlay);
-    }
-    this.overlay = null;
-    this.svg = null;
+    // if (this.overlay && this.overlay.parentNode) {
+    //   this.overlay.parentNode.removeChild(this.overlay);
+    // }
+    //this.overlay = null;
+    //this.svg = null;
     this.isActive = false;
   }
 
@@ -165,27 +169,31 @@ export class DrawOver {
   }
 
   private attachEventListeners(): void {
-    if (!this.svg) return;
-
-    this.svg.addEventListener("mousedown", this.handleMouseDown);
-    this.svg.addEventListener("mousemove", this.handleMouseMove);
-    this.svg.addEventListener("mouseup", this.handleMouseUp);
-    this.svg.addEventListener("mouseleave", this.handleMouseUp);
+    // Use document-level listeners so we can start drawing anywhere
+    document.addEventListener("mousedown", this.handleMouseDown);
+    document.addEventListener("mousemove", this.handleMouseMove);
+    document.addEventListener("mouseup", this.handleMouseUp);
   }
 
   private removeEventListeners(): void {
-    if (!this.svg) return;
-
-    this.svg.removeEventListener("mousedown", this.handleMouseDown);
-    this.svg.removeEventListener("mousemove", this.handleMouseMove);
-    this.svg.removeEventListener("mouseup", this.handleMouseUp);
-    this.svg.removeEventListener("mouseleave", this.handleMouseUp);
+    document.removeEventListener("mousedown", this.handleMouseDown);
+    document.removeEventListener("mousemove", this.handleMouseMove);
+    document.removeEventListener("mouseup", this.handleMouseUp);
   }
 
   private handleMouseDown = (e: MouseEvent): void => {
     if (!this.currentTool || !this.svg) return;
 
+    // Prevent interaction with underlying elements during drawing
+    e.preventDefault();
+    e.stopPropagation();
+
     this.isDrawing = true;
+    // Bring SVG to front while drawing
+    if (this.svg) {
+      this.svg.style.pointerEvents = "all";
+    }
+
     const point = this.getMousePosition(e);
     this.currentTool.onStart(point, this.svg);
   };
@@ -198,7 +206,7 @@ export class DrawOver {
   };
 
   private handleMouseUp = (e: MouseEvent): void => {
-    if (!this.isDrawing || !this.currentTool) return;
+    if (!this.isDrawing || !this.currentTool || !this.overlay) return;
 
     this.isDrawing = false;
     const point = this.getMousePosition(e);
@@ -207,6 +215,9 @@ export class DrawOver {
     if (shape) {
       this.shapes.push(shape);
     }
+
+    // Send overlay to back after drawing
+    this.overlay.style.pointerEvents = "none";
   };
 
   private getMousePosition(e: MouseEvent): Point {

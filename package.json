@@ -1,7 +1,7 @@
 {
   "name": "draw-over",
-  "version": "1.0.0",
-  "description": "A lightweight JavaScript library to draw lines, arrows, and rectangles over any web application",
+  "version": "1.0.4",
+  "description": "stable version with line, arrow and rectangles drawing tools.",
   "type": "module",
   "main": "./dist/draw-over.umd.js",
   "module": "./dist/draw-over.es.js",

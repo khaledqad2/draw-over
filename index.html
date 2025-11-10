@@ -8,16 +8,20 @@
   </head>
 
   <body>
-    <h1>DrawOver Test Page</h1>
+    <h4 id="tracer">USE DRAW OVER TOOLS TO DRAW YOUR COMMENTS</h4>
     <button id="activate">Activate Drawing</button>
     <button id="deactivate">Deactivate</button>
     <button id="clear">Clear All</button>
+
+    <button id="line">Line Tool</button>
+    <button id="arrow">Arrow Tool</button>
+    <button id="rectangle">Rectangle Tool</button>
 
     <script type="module">
       import DrawOver from './src/index.ts';
 
       const drawer = new DrawOver({
-        strokeColor: '#ff0000',
+
         strokeWidth: 3
       });
 
@@ -33,6 +37,18 @@
       document.getElementById('clear').addEventListener('click', () => {
         drawer.clear();
       });
+      document.getElementById('line').addEventListener('click', () => {
+        drawer.setTool('line');
+      });
+
+      document.getElementById('arrow').addEventListener('click', () => {
+        drawer.setTool('arrow');
+      });
+
+      document.getElementById('rectangle').addEventListener('click', () => {
+        drawer.setTool('rectangle');
+      });
+
     </script>
   </body>
 
