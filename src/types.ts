@@ -1,7 +1,7 @@
 /**
  * Available drawing tools
  */
-export type ToolType = "line" | "arrow" | "rectangle";
+export type ToolType = "line" | "arrow" | "rectangle" | "drumstick" | "pencil";
 
 /**
  * Configuration options for DrawOver

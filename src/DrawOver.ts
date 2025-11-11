@@ -1,14 +1,15 @@
-import type { DrawOverOptions, ToolType, Shape, Point } from "./types";
+import { DrawOverOptions, ToolType, Shape, Point } from "./types";
 import { BaseTool } from "./tools/BaseTool";
+import { PencilTool } from "./tools/PencilTool";
 import { LineTool } from "./tools/LineTool";
 import { ArrowTool } from "./tools/ArrowTool";
+import { DrumStick } from "./tools/DrumStick";
 import { RectangleTool } from "./tools/RectangleTool";
 import "./styles.css";
 
 export class DrawOver {
   private options: Required<DrawOverOptions>;
   private isActive: boolean = false;
-  private oneTimeOverlay: boolean = false;
   private overlay: HTMLDivElement | null = null;
   private svg: SVGSVGElement | null = null;
   private currentTool: BaseTool | null = null;
@@ -18,7 +19,7 @@ export class DrawOver {
 
   constructor(options: DrawOverOptions = {}) {
     this.options = {
-      strokeColor: options.strokeColor || "#d2691e",
+      strokeColor: options.strokeColor || "#1bfff7ff",
       strokeWidth: options.strokeWidth || 2,
       fillColor: options.fillColor || "transparent",
       zIndex: options.zIndex || 9999,
@@ -26,8 +27,10 @@ export class DrawOver {
 
     // Initialize tools
     this.tools = new Map();
+    this.tools.set("pencil", new PencilTool(this.options));
     this.tools.set("line", new LineTool(this.options));
     this.tools.set("arrow", new ArrowTool(this.options));
+    this.tools.set("drumstick", new DrumStick(this.options));
     this.tools.set("rectangle", new RectangleTool(this.options));
 
     // Set default tool
@@ -40,12 +43,9 @@ export class DrawOver {
   public activate(): void {
     if (this.isActive) return;
 
-    if (!this.oneTimeOverlay) {
-      this.createOverlay();
-    }
+    this.createOverlay();
     this.attachEventListeners();
     this.isActive = true;
-    this.oneTimeOverlay = true;
   }
 
   /**
@@ -55,11 +55,11 @@ export class DrawOver {
     if (!this.isActive) return;
 
     this.removeEventListeners();
-    // if (this.overlay && this.overlay.parentNode) {
-    //   this.overlay.parentNode.removeChild(this.overlay);
-    // }
-    //this.overlay = null;
-    //this.svg = null;
+    if (this.overlay && this.overlay.parentNode) {
+      this.overlay.parentNode.removeChild(this.overlay);
+    }
+    this.overlay = null;
+    this.svg = null;
     this.isActive = false;
   }
 
@@ -139,33 +139,11 @@ export class DrawOver {
     this.svg.style.position = "absolute";
     this.svg.style.top = "0";
     this.svg.style.left = "0";
-
-    // Add arrow marker definitions for arrow tool
-    const defs = document.createElementNS("http://www.w3.org/2000/svg", "defs");
-    const marker = document.createElementNS(
-      "http://www.w3.org/2000/svg",
-      "marker"
-    );
-    marker.setAttribute("id", "arrowhead");
-    marker.setAttribute("markerWidth", "10");
-    marker.setAttribute("markerHeight", "10");
-    marker.setAttribute("refX", "9");
-    marker.setAttribute("refY", "3");
-    marker.setAttribute("orient", "auto");
-
-    const polygon = document.createElementNS(
-      "http://www.w3.org/2000/svg",
-      "polygon"
-    );
-    polygon.setAttribute("points", "0 0, 10 3, 0 6");
-    polygon.setAttribute("fill", this.options.strokeColor);
-
-    marker.appendChild(polygon);
-    defs.appendChild(marker);
-    this.svg.appendChild(defs);
+    this.svg.style.pointerEvents = "none"; // Start with no pointer events
 
     this.overlay.appendChild(this.svg);
-    document.body.appendChild(this.overlay);
+    //document.body.appendChild(this.overlay);
+    document.getElementById("tool-container")?.appendChild(this.overlay);
   }
 
   private attachEventListeners(): void {
@@ -206,7 +184,7 @@ export class DrawOver {
   };
 
   private handleMouseUp = (e: MouseEvent): void => {
-    if (!this.isDrawing || !this.currentTool || !this.overlay) return;
+    if (!this.isDrawing || !this.currentTool) return;
 
     this.isDrawing = false;
     const point = this.getMousePosition(e);
@@ -216,8 +194,10 @@ export class DrawOver {
       this.shapes.push(shape);
     }
 
-    // Send overlay to back after drawing
-    this.overlay.style.pointerEvents = "none";
+    // Send SVG to back after drawing
+    if (this.svg) {
+      this.svg.style.pointerEvents = "none";
+    }
   };
 
   private getMousePosition(e: MouseEvent): Point {

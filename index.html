@@ -8,47 +8,19 @@
   </head>
 
   <body>
-    <h4 id="tracer">USE DRAW OVER TOOLS TO DRAW YOUR COMMENTS</h4>
-    <button id="activate">Activate Drawing</button>
-    <button id="deactivate">Deactivate</button>
-    <button id="clear">Clear All</button>
-
-    <button id="line">Line Tool</button>
-    <button id="arrow">Arrow Tool</button>
-    <button id="rectangle">Rectangle Tool</button>
-
+    <div>
+      <h3>demo content</h3>
+      <input type="text" placeholder="enter some thing">
+      <button style="background-color: red;">cocacola</button>
+    </div>
+    <div style="margin-top:800px ;">
+      <h3>demo content</h3>
+      <input type="text" placeholder="enter some thing">
+      <button style="background-color: red;">cocacola</button>
+    </div>
     <script type="module">
-      import DrawOver from './src/index.ts';
-
-      const drawer = new DrawOver({
-
-        strokeWidth: 3
-      });
-
-      document.getElementById('activate').addEventListener('click', () => {
-        drawer.activate();
-        drawer.setTool('line');
-      });
-
-      document.getElementById('deactivate').addEventListener('click', () => {
-        drawer.deactivate();
-      });
-
-      document.getElementById('clear').addEventListener('click', () => {
-        drawer.clear();
-      });
-      document.getElementById('line').addEventListener('click', () => {
-        drawer.setTool('line');
-      });
-
-      document.getElementById('arrow').addEventListener('click', () => {
-        drawer.setTool('arrow');
-      });
-
-      document.getElementById('rectangle').addEventListener('click', () => {
-        drawer.setTool('rectangle');
-      });
-
+      import { injectDrawOverUI } from "./src/index.ts"
+      injectDrawOverUI()
     </script>
   </body>
 

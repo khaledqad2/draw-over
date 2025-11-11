@@ -1,5 +1,5 @@
 .draw-over-overlay {
-  position: fixed;
+  position: absolute;
   top: 10;
   left: 0;
   width: 100%;

@@ -1,13 +1,13 @@
 import { BaseTool } from "./BaseTool";
 import { Point, Shape } from "../types";
 
-export class ArrowTool extends BaseTool {
-  private markerId: string = "arrowhead";
+export class DrumStick extends BaseTool {
+  private markerId: string = "stickend";
 
   /**
    * Create arrow marker definition in SVG defs
    */
-  private createArrowMarker(svg: SVGSVGElement): void {
+  private createDrumStickMarker(svg: SVGSVGElement): void {
     // Check if marker already exists
     if (svg.querySelector(`#${this.markerId}`)) return;
 
@@ -30,15 +30,18 @@ export class ArrowTool extends BaseTool {
     marker.setAttribute("refY", "3");
     marker.setAttribute("orient", "auto");
 
-    // Create polygon (triangle)
-    const polygon = document.createElementNS(
+    // Create circle at the end of the line
+    const circle = document.createElementNS(
       "http://www.w3.org/2000/svg",
-      "polygon"
+      "circle"
     );
-    polygon.setAttribute("points", "0 0, 10 3, 0 6");
-    polygon.setAttribute("fill", this.options.strokeColor);
 
-    marker.appendChild(polygon);
+    circle.setAttribute("cx", "7");
+    circle.setAttribute("cy", "3");
+    circle.setAttribute("r", "2.5");
+    circle.setAttribute("fill", this.options.strokeColor);
+    marker.appendChild(circle);
+
     defs.appendChild(marker);
   }
 
@@ -47,9 +50,9 @@ export class ArrowTool extends BaseTool {
     this.svg = svg;
 
     // Create arrow marker if it doesn't exist
-    this.createArrowMarker(svg);
+    this.createDrumStickMarker(svg);
 
-    // Create line element with arrowhead marker
+    // Create line element with stickend marker
     this.currentElement = document.createElementNS(
       "http://www.w3.org/2000/svg",
       "line"
@@ -92,14 +95,14 @@ export class ArrowTool extends BaseTool {
 
     const shape: Shape = {
       id: this.generateId(),
-      type: "arrow",
+      type: "drumstick",
       element: this.currentElement,
     };
 
     this.currentElement.setAttribute("data-shape-id", shape.id);
 
-    // Update arrowhead color to match stroke
-    this.updateArrowheadColor();
+    // Update stickend color to match stroke
+    this.updateStickEndColor();
 
     this.currentElement = null;
     this.startPoint = null;
@@ -107,10 +110,10 @@ export class ArrowTool extends BaseTool {
     return shape;
   }
 
-  private updateArrowheadColor(): void {
+  private updateStickEndColor(): void {
     if (!this.svg) return;
 
-    const marker = this.svg.querySelector(`#${this.markerId} polygon`);
+    const marker = this.svg.querySelector(`#${this.markerId} circle`);
     if (marker) {
       marker.setAttribute("fill", this.options.strokeColor);
     }
@@ -123,8 +126,8 @@ export class ArrowTool extends BaseTool {
     options: Required<import("../types").DrawOverOptions>
   ): void {
     super.updateOptions(options);
-    this.updateArrowheadColor();
+    this.updateStickEndColor();
   }
 }
 
-export default ArrowTool;
+export default DrumStick;
