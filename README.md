@@ -59,36 +59,10 @@ drawer.deactivate();
 ### Basic Example
 
 ```html
-<!DOCTYPE html>
-<html>
-  <head>
-    <title>DrawOver Example</title>
-  </head>
-  <body>
-    <button id="start">Start Drawing</button>
-    <button id="stop">Stop Drawing</button>
-    <button id="clear">Clear All</button>
-
-    <script type="module">
-      import DrawOver from "draw-over";
-
-      const drawer = new DrawOver();
-
-      document.getElementById("start").addEventListener("click", () => {
-        drawer.activate();
-        drawer.setTool("line");
-      });
-
-      document.getElementById("stop").addEventListener("click", () => {
-        drawer.deactivate();
-      });
-
-      document.getElementById("clear").addEventListener("click", () => {
-        drawer.clear();
-      });
-    </script>
-  </body>
-</html>
+<script type="module">
+  import { injectDrawOverUI } from "./src/index.ts";
+  injectDrawOverUI();
+</script>
 ```
 
 ### With React
@@ -170,7 +144,7 @@ drawer.setTool("rectangle"); // Draw rectangles
 
 **Parameters:**
 
-- `toolType`: `'line'` | `'arrow'` | `'rectangle'`
+- `toolType`: `'line'` | `'arrow'` | `'rectangle'` |`'drumstick'`|`'pencil'`
 
 #### `setOptions(options)`
 

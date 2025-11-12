@@ -1,7 +1,7 @@
 {
   "name": "draw-over",
-  "version": "1.0.4",
-  "description": "stable version with line, arrow and rectangles drawing tools.",
+  "version": "1.2.0",
+  "description": "stable version with more tools.",
   "type": "module",
   "main": "./dist/draw-over.umd.js",
   "module": "./dist/draw-over.es.js",
