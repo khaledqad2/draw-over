@@ -130,14 +130,37 @@ export class DrawOver {
     // Create overlay container
     this.overlay = document.createElement("div");
     this.overlay.className = "draw-over-overlay";
+    this.overlay.id = "draw-over-overlay";
     this.overlay.style.zIndex = this.options.zIndex.toString();
+
+    // calculate the document max-height
+
+    var body = document.body,
+      html = document.documentElement;
+
+    var height = Math.max(
+      body.scrollHeight,
+      body.offsetHeight,
+      html.clientHeight,
+      html.scrollHeight,
+      html.offsetHeight
+    );
+
+    // Calculate the document max-width
+    var width = Math.max(
+      body.scrollWidth,
+      body.offsetWidth,
+      html.clientWidth,
+      html.scrollWidth,
+      html.offsetWidth
+    );
 
     // Create SVG element
     this.svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
-    this.svg.setAttribute("width", "100%");
-    this.svg.setAttribute("height", "100%");
+    this.svg.setAttribute("width", `${width}px`);
+    this.svg.setAttribute("height", `${height}px`);
     this.svg.style.position = "absolute";
-    this.svg.style.top = "0";
+    this.svg.style.top = "30";
     this.svg.style.left = "0";
     this.svg.style.pointerEvents = "none"; // Start with no pointer events
 

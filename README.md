@@ -7,7 +7,7 @@ A lightweight, framework-agnostic JavaScript library that lets you draw lines, a
 
 ## Features
 
-✨ **Simple API** - Just a few lines of code to get started  
+✨ **Simple API** - Just a two lines of code to get started  
 🎨 **Customizable** - Change colors, stroke width, and more  
 📦 **Lightweight** - No dependencies, small bundle size  
 🔧 **TypeScript Support** - Full type definitions included  
@@ -18,6 +18,10 @@ A lightweight, framework-agnostic JavaScript library that lets you draw lines, a
 
 ```bash
 npm install draw-over
+```
+
+```bash
+npm install --save-dev draw-over //in devDependencies
 ```
 
 Or with yarn:
@@ -35,23 +39,12 @@ pnpm add draw-over
 ## Quick Start
 
 ```javascript
-import DrawOver from "draw-over";
-
-// Create instance
-const drawer = new DrawOver({
-  strokeColor: "#ff0000",
-  strokeWidth: 3,
-  fillColor: "transparent",
-});
-
-// Activate drawing mode
-drawer.activate();
-
-// Set tool (line, arrow, or rectangle)
-drawer.setTool("line");
-
-// Deactivate when done
-drawer.deactivate();
+/**
+ * import the main method to start inject the html code in
+ * the body tag in your html page the just call it
+ */
+import { injectDrawOverUI } from "draw-over";
+injectDrawOverUI();
 ```
 
 ## Usage
@@ -60,41 +53,9 @@ drawer.deactivate();
 
 ```html
 <script type="module">
-  import { injectDrawOverUI } from "./src/index.ts";
+  import { injectDrawOverUI } from "draw-over";
   injectDrawOverUI();
 </script>
-```
-
-### With React
-
-```jsx
-import { useRef } from "react";
-import DrawOver from "draw-over";
-
-function App() {
-  const drawerRef = useRef(null);
-
-  const handleStart = () => {
-    if (!drawerRef.current) {
-      drawerRef.current = new DrawOver({
-        strokeColor: "#3b82f6",
-        strokeWidth: 2,
-      });
-    }
-    drawerRef.current.activate();
-  };
-
-  const handleStop = () => {
-    drawerRef.current?.deactivate();
-  };
-
-  return (
-    <div>
-      <button onClick={handleStart}>Start Drawing</button>
-      <button onClick={handleStop}>Stop Drawing</button>
-    </div>
-  );
-}
 ```
 
 ## API Reference
@@ -140,6 +101,8 @@ Sets the active drawing tool.
 drawer.setTool("line"); // Draw lines
 drawer.setTool("arrow"); // Draw arrows
 drawer.setTool("rectangle"); // Draw rectangles
+drawer.setTool("drumstick"); // Draw drumstick
+drawer.setTool("pencil"); // Pencil tool
 ```
 
 **Parameters:**
@@ -233,7 +196,7 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 
 ## License
 
-MIT © [Your Name]
+MIT © Khaled Obaid
 
 ## Support
 
