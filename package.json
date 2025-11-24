@@ -23,8 +23,6 @@
     "build": "tsc && vite build",
     "build:extension": "npm run build && npm run copy:extension",
     "copy:extension": "mkdir -p extension/lib && cp dist/draw-over.es.js extension/lib/draw-over.bundle.js && cp dist/draw-over.css extension/lib/draw-over.css",
-    "build:extension": "npm run build && npm run copy:extension",
-    "copy:extension": "mkdir -p extension/lib && cp dist/draw-over.es.js extension/lib/draw-over.bundle.js && cp dist/draw-over.css extension/lib/draw-over.css",
     "preview": "vite preview",
     "prepublishOnly": "npm run build"
   },
